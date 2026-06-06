@@ -2,23 +2,25 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todo App</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial;
       background: #0f172a;
       color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
     }
 
     .app {
-      width: 100%;
       max-width: 420px;
+      margin: 0 auto;
+      padding: 20px;
       text-align: center;
     }
 
@@ -27,29 +29,34 @@
       margin-bottom: 20px;
     }
 
+    .inputBox {
+      display: flex;
+      gap: 8px;
+    }
+
     input {
-      width: 70%;
+      flex: 1;
       padding: 12px;
-      border-radius: 8px;
       border: none;
+      border-radius: 8px;
       outline: none;
     }
 
     button {
-      padding: 12px 10px;
+      padding: 12px 14px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      margin-left: 5px;
       background: #38bdf8;
       color: black;
       font-weight: bold;
+      flex-shrink: 0;
     }
 
     .saveBtn {
-      background: #22c55e;
       margin-top: 10px;
       width: 100%;
+      background: #22c55e;
     }
 
     ul {
@@ -61,7 +68,7 @@
       list-style: none;
       background: #1e293b;
       margin: 10px 0;
-      padding: 10px;
+      padding: 12px;
       border-radius: 8px;
       display: flex;
       justify-content: space-between;
@@ -72,9 +79,8 @@
       background: red;
       color: white;
       border: none;
-      border-radius: 5px;
-      padding: 5px 10px;
-      cursor: pointer;
+      border-radius: 6px;
+      padding: 6px 10px;
     }
   </style>
 </head>
@@ -85,8 +91,10 @@
 
   <h1>My Todo App 📝</h1>
 
-  <input id="task" placeholder="Enter task">
-  <button onclick="addTask()">Add</button>
+  <div class="inputBox">
+    <input id="task" placeholder="Enter task">
+    <button onclick="addTask()">Add</button>
+  </div>
 
   <button class="saveBtn" onclick="saveNow()">Save</button>
 
@@ -110,10 +118,11 @@
 
   function addTask() {
     let input = document.getElementById("task");
-    if (input.value === "") return;
+    if (input.value.trim() === "") return;
 
     tasks.push(input.value);
     input.value = "";
+
     saveNow();
     render();
   }
