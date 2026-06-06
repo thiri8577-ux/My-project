@@ -3,64 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Todo Save Fix</title>
+<title>Todo Debug</title>
 <style>
-body{font-family:Arial;background:#0f172a;color:white;text-align:center;margin:0;padding:20px}
-.app{max-width:420px;margin:auto}
+body{font-family:Arial;background:#0f172a;color:white;text-align:center;padding:20px}
 input{padding:10px;width:70%}
 button{padding:10px}
-li{background:#1e293b;margin:10px;padding:10px;display:flex;justify-content:space-between}
-.delete{background:red;color:white;border:none}
+li{background:#1e293b;margin:10px;padding:10px}
 </style>
 </head>
 
 <body>
 
-<div class="app">
-<h1>Todo App 📝</h1>
+<h1>Todo Debug 🧪</h1>
 
 <input id="task">
 <button onclick="addTask()">Add</button>
 
+<p id="status"></p>
+
 <ul id="list"></ul>
-</div>
 
 <script>
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
 function render(){
-  let list = document.getElementById("list");
-  list.innerHTML = "";
-  tasks.forEach((t,i)=>{
+  document.getElementById("list").innerHTML = "";
+  tasks.forEach(t=>{
     let li = document.createElement("li");
-    li.innerHTML = t + "<button class='delete' onclick='removeTask("+i+")'>X</button>";
-    list.appendChild(li);
+    li.innerText = t;
+    document.getElementById("list").appendChild(li);
   });
+
+  document.getElementById("status").innerText =
+    "Saved items: " + tasks.length;
 }
 
 function addTask(){
   let input = document.getElementById("task");
-  if(input.value.trim()=="") return;
+  if(!input.value) return;
 
   tasks.push(input.value);
-  input.value="";
-  save();
-  render();
-}
-
-function removeTask(i){
-  tasks.splice(i,1);
-  save();
-  render();
-}
-
-function save(){
   localStorage.setItem("tasks", JSON.stringify(tasks));
-}
 
-document.getElementById("task").addEventListener("keydown", e=>{
-  if(e.key==="Enter") addTask();
-});
+  input.value = "";
+  render();
+}
 
 render();
 </script>
