@@ -2,81 +2,24 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Zaw Moe Portfolio</title>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: white;
-      text-align: center;
-    }
-
-    .container {
-      padding: 80px 20px;
-    }
-
-    h1 {
-      font-size: 45px;
-      margin-bottom: 10px;
-      color: #00ffd5;
-    }
-
-    h2 {
-      font-weight: normal;
-      color: #ccc;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.1);
-      padding: 20px;
-      margin: 20px auto;
-      width: 80%;
-      max-width: 500px;
-      border-radius: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 10px 20px;
-      background: #00ffd5;
-      color: black;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .btn:hover {
-      background: white;
-    }
-  </style>
+  <title>JS Practice</title>
 </head>
 
-<body>
+<body style="text-align:center; font-family:Arial; padding-top:100px;">
 
-  <div class="container">
-    <h1>Hi, I'm Zaw Moe 👋</h1>
-    <h2>Frontend Developer (Beginner)</h2>
+  <h1>JavaScript First Step 🚀</h1>
 
-    <div class="card">
-      <h3>About Me</h3>
-      <p>I am learning web development using only my phone. I love coding and building websites.</p>
-    </div>
+  <button onclick="showMessage()" style="padding:10px 20px; font-size:18px;">
+    Click Me
+  </button>
 
-    <div class="card">
-      <h3>My Project</h3>
-      <p>My First GitHub Website Portfolio</p>
-      <a class="btn" href="https://github.com/" target="_blank">View GitHub</a>
-    </div>
+  <p id="msg" style="font-size:22px; margin-top:20px;"></p>
 
-    <div class="card">
-      <h3>Contact</h3>
-      <p>Email: thiri8577@gmail.com</p>
-    </div>
-  </div>
+  <script>
+    function showMessage() {
+      document.getElementById("msg").innerText = "Hello Zaw Moe 👋";
+    }
+  </script>
 
 </body>
 </html>
