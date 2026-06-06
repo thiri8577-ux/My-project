@@ -1,147 +1,68 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Todo App</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0f172a;
-      color: white;
-    }
-
-    .app {
-      max-width: 420px;
-      margin: 0 auto;
-      padding: 20px;
-      text-align: center;
-    }
-
-    h1 {
-      color: #38bdf8;
-      margin-bottom: 20px;
-    }
-
-    .inputBox {
-      display: flex;
-      gap: 8px;
-    }
-
-    input {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      outline: none;
-    }
-
-    button {
-      padding: 12px 14px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #38bdf8;
-      color: black;
-      font-weight: bold;
-      flex-shrink: 0;
-    }
-
-    .saveBtn {
-      margin-top: 10px;
-      width: 100%;
-      background: #22c55e;
-    }
-
-    ul {
-      padding: 0;
-      margin-top: 20px;
-    }
-
-    li {
-      list-style: none;
-      background: #1e293b;
-      margin: 10px 0;
-      padding: 12px;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .delete {
-      background: red;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 10px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todo Save Fix</title>
+<style>
+body{font-family:Arial;background:#0f172a;color:white;text-align:center;margin:0;padding:20px}
+.app{max-width:420px;margin:auto}
+input{padding:10px;width:70%}
+button{padding:10px}
+li{background:#1e293b;margin:10px;padding:10px;display:flex;justify-content:space-between}
+.delete{background:red;color:white;border:none}
+</style>
 </head>
 
 <body>
 
 <div class="app">
+<h1>Todo App 📝</h1>
 
-  <h1>My Todo App 📝</h1>
+<input id="task">
+<button onclick="addTask()">Add</button>
 
-  <div class="inputBox">
-    <input id="task" placeholder="Enter task">
-    <button onclick="addTask()">Add</button>
-  </div>
-
-  <button class="saveBtn" onclick="saveNow()">Save</button>
-
-  <ul id="list"></ul>
-
+<ul id="list"></ul>
 </div>
 
 <script>
-  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-  function render() {
-    let list = document.getElementById("list");
-    list.innerHTML = "";
-
-    tasks.forEach((t, i) => {
-      let li = document.createElement("li");
-      li.innerHTML = t + "<button class='delete' onclick='removeTask(" + i + ")'>X</button>";
-      list.appendChild(li);
-    });
-  }
-
-  function addTask() {
-    let input = document.getElementById("task");
-    if (input.value.trim() === "") return;
-
-    tasks.push(input.value);
-    input.value = "";
-
-    saveNow();
-    render();
-  }
-
-  function removeTask(i) {
-    tasks.splice(i, 1);
-    saveNow();
-    render();
-  }
-
-  function saveNow() {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }
-
-  document.getElementById("task").addEventListener("keydown", function(e) {
-    if (e.key === "Enter") addTask();
+function render(){
+  let list = document.getElementById("list");
+  list.innerHTML = "";
+  tasks.forEach((t,i)=>{
+    let li = document.createElement("li");
+    li.innerHTML = t + "<button class='delete' onclick='removeTask("+i+")'>X</button>";
+    list.appendChild(li);
   });
+}
 
+function addTask(){
+  let input = document.getElementById("task");
+  if(input.value.trim()=="") return;
+
+  tasks.push(input.value);
+  input.value="";
+  save();
   render();
+}
+
+function removeTask(i){
+  tasks.splice(i,1);
+  save();
+  render();
+}
+
+function save(){
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+document.getElementById("task").addEventListener("keydown", e=>{
+  if(e.key==="Enter") addTask();
+});
+
+render();
 </script>
 
 </body>
