@@ -3,53 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Todo Debug</title>
+<title>Todo App</title>
+
 <style>
-body{font-family:Arial;background:#0f172a;color:white;text-align:center;padding:20px}
-input{padding:10px;width:70%}
-button{padding:10px}
-li{background:#1e293b;margin:10px;padding:10px}
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0f172a;
+  color:white;
+  text-align:center;
+}
+
+.app{
+  max-width:420px;
+  margin:auto;
+  padding:20px;
+}
+
+input{
+  width:70%;
+  padding:10px;
+}
+
+button{
+  padding:10px;
+}
+
+li{
+  list-style:none;
+  background:#1e293b;
+  margin:10px 0;
+  padding:10px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.delete{
+  background:red;
+  color:white;
+  border:none;
+}
+
+/* ⭐ Toast */
+#toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#22c55e;
+  color:black;
+  padding:10px 20px;
+  border-radius:8px;
+  display:none;
+}
 </style>
 </head>
 
 <body>
 
-<h1>Todo Debug 🧪</h1>
+<div class="app">
+<h1>Todo App 📝</h1>
 
 <input id="task">
 <button onclick="addTask()">Add</button>
 
-<p id="status"></p>
-
 <ul id="list"></ul>
+</div>
+
+<div id="toast"></div>
 
 <script>
+
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-function render(){
-  document.getElementById("list").innerHTML = "";
-  tasks.forEach(t=>{
-    let li = document.createElement("li");
-    li.innerText = t;
-    document.getElementById("list").appendChild(li);
-  });
+function showToast(msg){
+  let toast = document.getElementById("toast");
+  toast.innerText = msg;
+  toast.style.display = "block";
 
-  document.getElementById("status").innerText =
-    "Saved items: " + tasks.length;
+  setTimeout(()=>{
+    toast.style.display = "none";
+  },1500);
+}
+
+function render(){
+  let list = document.getElementById("list");
+  list.innerHTML = "";
+
+  tasks.forEach((t,i)=>{
+    let li = document.createElement("li");
+    li.innerHTML = t + "<button class='delete' onclick='removeTask("+i+")'>X</button>";
+    list.appendChild(li);
+  });
 }
 
 function addTask(){
   let input = document.getElementById("task");
-  if(!input.value) return;
+  if(input.value.trim()=="") return;
 
   tasks.push(input.value);
   localStorage.setItem("tasks", JSON.stringify(tasks));
 
-  input.value = "";
+  input.value="";
   render();
+  showToast("Task Added ✔");
 }
 
+function removeTask(i){
+  tasks.splice(i,1);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+
+  render();
+  showToast("Task Deleted ❌");
+}
+
+document.getElementById("task").addEventListener("keydown", e=>{
+  if(e.key==="Enter") addTask();
+});
+
 render();
+
 </script>
 
 </body>
