@@ -2,22 +2,27 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>JS Practice</title>
+  <title>JS Input Lesson</title>
 </head>
 
 <body style="text-align:center; font-family:Arial; padding-top:100px;">
 
-  <h1>JavaScript First Step 🚀</h1>
+  <h1>Input + JavaScript 🚀</h1>
 
-  <button onclick="showMessage()" style="padding:10px 20px; font-size:18px;">
-    Click Me
+  <input id="name" placeholder="Your name" style="padding:10px; font-size:16px;">
+
+  <br><br>
+
+  <button onclick="showName()" style="padding:10px 20px;">
+    Show Name
   </button>
 
-  <p id="msg" style="font-size:22px; margin-top:20px;"></p>
+  <h2 id="output"></h2>
 
   <script>
-    function showMessage() {
-      document.getElementById("msg").innerText = "Hello Zaw Moe 👋";
+    function showName() {
+      let name = document.getElementById("name").value;
+      document.getElementById("output").innerText = "Hello " + name + " 👋";
     }
   </script>
 
