@@ -2,96 +2,138 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Todo App Save</title>
+  <title>Todo App</title>
+
   <style>
     body {
+      margin: 0;
       font-family: Arial;
-      background: #111;
+      background: #0f172a;
       color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 420px;
       text-align: center;
-      padding-top: 60px;
+    }
+
+    h1 {
+      color: #38bdf8;
+      margin-bottom: 20px;
     }
 
     input {
-      padding: 10px;
-      width: 250px;
-      font-size: 16px;
+      width: 70%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
     }
 
     button {
-      padding: 10px 15px;
-      margin-left: 5px;
+      padding: 12px 10px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
+      margin-left: 5px;
+      background: #38bdf8;
+      color: black;
+      font-weight: bold;
+    }
+
+    .saveBtn {
+      background: #22c55e;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    ul {
+      padding: 0;
+      margin-top: 20px;
     }
 
     li {
       list-style: none;
-      background: #222;
-      margin: 10px auto;
+      background: #1e293b;
+      margin: 10px 0;
       padding: 10px;
-      width: 300px;
+      border-radius: 8px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
 
     .delete {
       background: red;
       color: white;
       border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
     }
   </style>
 </head>
 
 <body>
 
+<div class="app">
+
   <h1>My Todo App 📝</h1>
 
   <input id="task" placeholder="Enter task">
   <button onclick="addTask()">Add</button>
 
+  <button class="saveBtn" onclick="saveNow()">Save</button>
+
   <ul id="list"></ul>
 
-  <script>
-    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+</div>
 
-    function renderTasks() {
-      let list = document.getElementById("list");
-      list.innerHTML = "";
+<script>
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-      tasks.forEach((t, index) => {
-        let li = document.createElement("li");
-        li.innerHTML = t + " <button class='delete' onclick='deleteTask(" + index + ")'>X</button>";
-        list.appendChild(li);
-      });
-    }
+  function render() {
+    let list = document.getElementById("list");
+    list.innerHTML = "";
 
-    function addTask() {
-      let taskInput = document.getElementById("task");
-      let taskText = taskInput.value;
-
-      if (taskText === "") return;
-
-      tasks.push(taskText);
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-
-      taskInput.value = "";
-      renderTasks();
-    }
-
-    function deleteTask(index) {
-      tasks.splice(index, 1);
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-      renderTasks();
-    }
-
-    document.getElementById("task").addEventListener("keydown", function(event) {
-      if (event.key === "Enter") {
-        addTask();
-      }
+    tasks.forEach((t, i) => {
+      let li = document.createElement("li");
+      li.innerHTML = t + "<button class='delete' onclick='removeTask(" + i + ")'>X</button>";
+      list.appendChild(li);
     });
+  }
 
-    renderTasks();
-  </script>
+  function addTask() {
+    let input = document.getElementById("task");
+    if (input.value === "") return;
+
+    tasks.push(input.value);
+    input.value = "";
+    saveNow();
+    render();
+  }
+
+  function removeTask(i) {
+    tasks.splice(i, 1);
+    saveNow();
+    render();
+  }
+
+  function saveNow() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+
+  document.getElementById("task").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") addTask();
+  });
+
+  render();
+</script>
 
 </body>
 </html>
